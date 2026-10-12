@@ -36,7 +36,6 @@ export default function App() {
     const loadData = async () => {
       try {
         setLoading(true);
-        // Fetch CSV files from public directory
         const matchesResponse = await fetch('/matches.csv');
         const deliveriesResponse = await fetch('/deliveries.csv');
 
@@ -47,11 +46,9 @@ export default function App() {
         const matchesText = await matchesResponse.text();
         const deliveriesText = await deliveriesResponse.text();
 
-        // Parse CSVs
         const matchesData = await parseCSV(new File([matchesText], 'matches.csv'));
         const deliveriesData = await parseCSV(new File([deliveriesText], 'deliveries.csv'));
 
-        // Process analytics
         const newAnalytics = {
           matchesByYear: getMatchesByYear(matchesData),
           teamStats: getTeamWinStats(matchesData),
@@ -77,10 +74,10 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-dark-900 to-dark-950">
         <div className="text-center">
           <div className="spinner mb-6 mx-auto"></div>
-          <p className="text-slate-600 text-sm font-medium">Loading Analytics...</p>
+          <p className="text-neon-200 text-sm font-medium tracking-wider">Loading Analytics</p>
         </div>
       </div>
     );
@@ -88,59 +85,64 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-lg max-w-md border border-slate-200">
-          <div className="text-red-500 text-3xl mb-4">⚠️</div>
-          <p className="text-slate-900 font-semibold mb-2">Unable to Load Data</p>
-          <p className="text-slate-600 text-sm">{error}</p>
-          <p className="text-slate-500 text-xs mt-4">Ensure both CSV files are in the public directory</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-dark-900 to-dark-950">
+        <div className="glass-effect p-8 rounded-3xl max-w-md">
+          <div className="text-neon-400 text-3xl mb-4">⚠️</div>
+          <p className="text-neon-100 font-semibold mb-2">Unable to Load Data</p>
+          <p className="text-neon-300 text-sm">{error}</p>
         </div>
       </div>
     );
   }
 
   const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'teams', label: 'Teams' },
-    { id: 'players', label: 'Players' },
-    { id: 'venues', label: 'Venues' },
-    { id: 'analysis', label: 'Analysis' }
+    { id: 'overview', label: '◆ Overview' },
+    { id: 'teams', label: '◈ Teams' },
+    { id: 'players', label: '◇ Players' },
+    { id: 'venues', label: '◉ Venues' },
+    { id: 'analysis', label: '◆ Analysis' }
   ];
 
   const totalMatches = analytics.matchesByYear.reduce((sum, d) => sum + d.matches, 0);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-dark-800 to-dark-950">
+      {/* Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-neon-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between mb-8">
+      <header className="sticky top-0 z-40 backdrop-blur-md border-b border-neon-500/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="text-3xl">🏏</div>
+              <div className="text-2xl sm:text-3xl">🏏</div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-900">Cricket Analytics</h1>
-                <p className="text-sm text-slate-500 mt-0.5">IPL Performance Insights</p>
+                <h1 className="text-xl sm:text-2xl font-bold">CRICKET ANALYTICS</h1>
+                <p className="text-xs sm:text-sm text-neon-300 mt-0.5">IPL Performance Insights</p>
               </div>
             </div>
-            <div className="text-right hidden sm:block">
-              <p className="text-slate-600 text-sm">
-                <span className="font-semibold text-slate-900">{totalMatches}</span> Matches
+            <div className="text-right text-xs sm:text-sm hidden md:block">
+              <p className="text-neon-300">
+                <span className="font-bold text-neon-100">{totalMatches}</span> Matches
               </p>
-              <p className="text-slate-600 text-sm">
-                <span className="font-semibold text-slate-900">{analytics.teamStats.length}</span> Teams
+              <p className="text-neon-300">
+                <span className="font-bold text-neon-100">{analytics.teamStats.length}</span> Teams
               </p>
             </div>
           </div>
 
           {/* Tab Navigation */}
-          <nav className="flex gap-1 overflow-x-auto pb-2 -mb-2">
+          <nav className="flex gap-2 overflow-x-auto pb-2 -mb-2 flex-wrap">
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2.5 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${activeTab === tab.id
-                    ? 'bg-cricket-600 text-white shadow-md'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                className={`px-3 sm:px-4 py-2 rounded-lg font-medium text-xs sm:text-sm whitespace-nowrap transition-all ${activeTab === tab.id
+                    ? 'bg-gradient-to-r from-neon-500 to-neon-400 text-dark-950 shadow-neon'
+                    : 'text-neon-300 hover:text-neon-100 hover:bg-neon-500/10 border border-neon-500/30'
                   }`}
               >
                 {tab.label}
@@ -151,36 +153,36 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <MatchesByYear data={analytics.matchesByYear} />
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
-                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Total Matches</p>
-                <p className="text-4xl font-bold text-slate-900">{totalMatches}</p>
-                <p className="text-slate-400 text-xs mt-3">All seasons combined</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
+              <div className="glass-effect p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:shadow-neon transition-all group">
+                <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-2 sm:mb-3">Total</p>
+                <p className="text-2xl sm:text-4xl font-bold text-neon-100 group-hover:text-neon-300 transition-colors">{totalMatches}</p>
+                <p className="text-neon-500/70 text-xs mt-2">Matches</p>
               </div>
 
-              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
-                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Total Teams</p>
-                <p className="text-4xl font-bold text-slate-900">{analytics.teamStats.length}</p>
-                <p className="text-slate-400 text-xs mt-3">Active franchises</p>
+              <div className="glass-effect p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:shadow-neon transition-all group">
+                <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-2 sm:mb-3">Teams</p>
+                <p className="text-2xl sm:text-4xl font-bold text-neon-100 group-hover:text-neon-300 transition-colors">{analytics.teamStats.length}</p>
+                <p className="text-neon-500/70 text-xs mt-2">Active</p>
               </div>
 
-              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
-                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Top Venue</p>
-                <p className="text-2xl font-bold text-slate-900 truncate">{analytics.venueStats[0]?.venue?.split(',')[0] || 'N/A'}</p>
-                <p className="text-slate-400 text-xs mt-3">{analytics.venueStats[0]?.matches || 0} matches</p>
+              <div className="glass-effect p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:shadow-neon transition-all group">
+                <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-2 sm:mb-3">Venue</p>
+                <p className="text-lg sm:text-2xl font-bold text-neon-100 truncate group-hover:text-neon-300 transition-colors">{analytics.venueStats[0]?.venue?.split(',')[0] || 'N/A'}</p>
+                <p className="text-neon-500/70 text-xs mt-2">{analytics.venueStats[0]?.matches || 0} events</p>
               </div>
 
-              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
-                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Most Wins</p>
-                <p className="text-2xl font-bold text-slate-900 truncate">{analytics.teamStats[0]?.team || 'N/A'}</p>
-                <p className="text-slate-400 text-xs mt-3">{analytics.teamStats[0]?.wins || 0} victories</p>
+              <div className="glass-effect p-4 sm:p-6 rounded-2xl sm:rounded-3xl hover:shadow-neon transition-all group">
+                <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-2 sm:mb-3">Leader</p>
+                <p className="text-lg sm:text-2xl font-bold text-neon-100 truncate group-hover:text-neon-300 transition-colors">{analytics.teamStats[0]?.team?.split(' ')[0] || 'N/A'}</p>
+                <p className="text-neon-500/70 text-xs mt-2">{analytics.teamStats[0]?.wins || 0} wins</p>
               </div>
             </div>
           </div>
@@ -217,10 +219,10 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 py-8 text-center">
-          <p className="text-slate-600 text-sm">IPL Cricket Analytics Dashboard</p>
-          <p className="text-slate-400 text-xs mt-2">Built with React, Vite & Recharts</p>
+      <footer className="border-t border-neon-500/20 backdrop-blur-md mt-12 sm:mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-center">
+          <p className="text-neon-300 text-sm">IPL Cricket Analytics Dashboard</p>
+          <p className="text-neon-500/60 text-xs mt-2">Futuristic • Minimal • Adaptive</p>
         </div>
       </footer>
     </div>

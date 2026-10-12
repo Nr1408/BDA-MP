@@ -2,64 +2,65 @@ import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export const RunsPerOver = ({ data }) => {
-  if (!data || data.length === 0) return <div className="p-4 text-slate-500">Loading data...</div>;
+  if (!data || data.length === 0) return <div className="p-4 text-neon-400">Loading data...</div>;
 
   const avgHighest = Math.max(...data.map(d => parseFloat(d.avgRuns))).toFixed(2);
   const avgLowest = Math.min(...data.map(d => parseFloat(d.avgRuns))).toFixed(2);
   const avgOverall = (data.reduce((sum, d) => sum + parseFloat(d.avgRuns), 0) / data.length).toFixed(2);
 
   return (
-    <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-      <h2 className="text-2xl font-bold text-slate-900 mb-6">Scoring Trend by Over</h2>
-      <ResponsiveContainer width="100%" height={350}>
-        <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+    <div className="glass-effect p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-neon-500/30">
+      <h2 className="text-xl sm:text-2xl font-bold text-neon-100 mb-6">Scoring Trend</h2>
+      <ResponsiveContainer width="100%" height={320}>
+        <AreaChart data={data} margin={{ top: 20, right: 20, left: -20, bottom: 20 }}>
           <defs>
-            <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0284c7" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#0284c7" stopOpacity={0} />
+            <linearGradient id="scoreGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#0dd9ff" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#0dd9ff" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(13, 217, 255, 0.1)" />
           <XAxis
             dataKey="over"
-            label={{ value: 'Over Number', position: 'insideBottomRight', offset: -5 }}
-            tick={{ fill: '#64748b' }}
+            label={{ value: 'Over', position: 'insideBottomRight', offset: -10 }}
+            tick={{ fill: '#0dd9ff', opacity: 0.7 }}
           />
           <YAxis
             label={{ value: 'Avg Runs', angle: -90, position: 'insideLeft' }}
-            tick={{ fill: '#64748b' }}
+            tick={{ fill: '#0dd9ff', opacity: 0.7 }}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '8px'
+              backgroundColor: 'rgba(26, 26, 46, 0.9)',
+              border: '1px solid rgba(13, 217, 255, 0.3)',
+              borderRadius: '12px',
+              color: '#0dd9ff'
             }}
           />
           <Area
             type="monotone"
             dataKey="avgRuns"
-            stroke="#0284c7"
+            stroke="#0dd9ff"
             strokeWidth={2}
             fillOpacity={1}
-            fill="url(#scoreGradient)"
+            fill="url(#scoreGrad)"
             name="Average Runs"
           />
         </AreaChart>
       </ResponsiveContainer>
 
-      <div className="grid grid-cols-3 gap-4 mt-8">
-        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-2">Highest Avg</p>
-          <p className="text-3xl font-bold text-cricket-600">{avgHighest}</p>
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-6 sm:mt-8">
+        <div className="bg-neon-500/10 p-3 sm:p-4 rounded-lg border border-neon-500/20 text-center">
+          <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-1 sm:mb-2">High</p>
+          <p className="text-xl sm:text-3xl font-bold text-neon-300">{avgHighest}</p>
         </div>
-        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-2">Lowest Avg</p>
-          <p className="text-3xl font-bold text-slate-900">{avgLowest}</p>
+        <div className="bg-neon-500/10 p-3 sm:p-4 rounded-lg border border-neon-500/20 text-center">
+          <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-1 sm:mb-2">Avg</p>
+          <p className="text-xl sm:text-3xl font-bold text-neon-100">{avgOverall}</p>
         </div>
-        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-2">Overall Avg</p>
-          <p className="text-3xl font-bold text-slate-900">{avgOverall}</p>
+        <div className="bg-neon-500/10 p-3 sm:p-4 rounded-lg border border-neon-500/20 text-center">
+          <p className="text-neon-400 text-xs font-medium uppercase tracking-wider mb-1 sm:mb-2">Low</p>
+          <p className="text-xl sm:text-3xl font-bold text-neon-300">{avgLowest}</p>
         </div>
       </div>
     </div>

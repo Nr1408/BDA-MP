@@ -7,35 +7,48 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Poppins', 'system-ui', 'sans-serif'],
-        mono: ['Fira Code', 'monospace'],
+        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        display: ['Syne', 'system-ui', 'sans-serif'],
+        code: ['JetBrains Mono', 'monospace'],
+        alt: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        slate: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#020617'
+        dark: {
+          50: '#f8f8ff',
+          100: '#f0f0ff',
+          200: '#e6e6ff',
+          300: '#d4d4ff',
+          400: '#b8b8ff',
+          500: '#9090ff',
+          600: '#6b68ff',
+          700: '#5555ff',
+          800: '#1a1a2e',
+          900: '#0f0f1e',
+          950: '#050510'
         },
-        cricket: {
+        neon: {
           50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c3d66'
+          100: '#e0f7ff',
+          200: '#baf3ff',
+          300: '#7eebff',
+          400: '#43e4ff',
+          500: '#0dd9ff',
+          600: '#00b4d8',
+          700: '#0096c7',
+          800: '#0077b6',
+          900: '#005a8d',
+        },
+        accent: {
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f8a5d8',
+          400: '#f472b6',
+          500: '#ec4899',
+          600: '#db2777',
+          700: '#be123c',
+          800: '#9d174d',
+          900: '#831843',
         }
       },
       spacing: {
@@ -46,14 +59,39 @@ export default {
         'xl': '12px',
         '2xl': '16px',
         '3xl': '20px',
+        '4xl': '24px',
       },
       boxShadow: {
         'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
         'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
         'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-        'premium': '0 25px 50px -12px rgba(0, 0, 0, 0.15)',
-      }
+        'neon': '0 0 20px rgba(13, 217, 255, 0.5)',
+        'neon-lg': '0 0 40px rgba(13, 217, 255, 0.3)',
+        'glow': '0 0 30px rgba(107, 104, 255, 0.3)',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      animation: {
+        'float': 'float 3s ease-in-out infinite',
+        'glow': 'glow 2s ease-in-out infinite',
+        'pulse-neon': 'pulse-neon 2s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        glow: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.8' },
+        },
+        'pulse-neon': {
+          '0%, 100%': { boxShadow: '0 0 20px rgba(13, 217, 255, 0.5)' },
+          '50%': { boxShadow: '0 0 30px rgba(13, 217, 255, 0.8)' },
+        },
+      },
     }
   },
   plugins: []

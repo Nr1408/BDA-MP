@@ -77,10 +77,10 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-cricket-900 to-cricket-700">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="text-center">
-          <div className="spinner mb-4 mx-auto"></div>
-          <p className="text-white text-lg font-semibold">Loading IPL Analytics Dashboard...</p>
+          <div className="spinner mb-6 mx-auto"></div>
+          <p className="text-slate-600 text-sm font-medium">Loading Analytics...</p>
         </div>
       </div>
     );
@@ -88,11 +88,12 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-red-900 to-red-700">
-        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md">
-          <p className="text-red-600 text-lg font-semibold mb-2">Error Loading Dashboard</p>
-          <p className="text-gray-700">{error}</p>
-          <p className="text-gray-600 text-sm mt-4">Please ensure both CSV files are in the public directory</p>
+      <div className="flex items-center justify-center min-h-screen bg-slate-50">
+        <div className="text-center bg-white p-8 rounded-2xl shadow-lg max-w-md border border-slate-200">
+          <div className="text-red-500 text-3xl mb-4">⚠️</div>
+          <p className="text-slate-900 font-semibold mb-2">Unable to Load Data</p>
+          <p className="text-slate-600 text-sm">{error}</p>
+          <p className="text-slate-500 text-xs mt-4">Ensure both CSV files are in the public directory</p>
         </div>
       </div>
     );
@@ -100,37 +101,46 @@ export default function App() {
 
   const tabs = [
     { id: 'overview', label: 'Overview' },
-    { id: 'teams', label: 'Team Stats' },
-    { id: 'players', label: 'Player Stats' },
-    { id: 'venues', label: 'Venue Analysis' },
-    { id: 'analysis', label: 'Match Analysis' }
+    { id: 'teams', label: 'Teams' },
+    { id: 'players', label: 'Players' },
+    { id: 'venues', label: 'Venues' },
+    { id: 'analysis', label: 'Analysis' }
   ];
 
+  const totalMatches = analytics.matchesByYear.reduce((sum, d) => sum + d.matches, 0);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cricket-50 to-cricket-100">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-cricket-800 to-cricket-600 text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-4xl font-bold">🏏 IPL Analytics Dashboard</h1>
-              <p className="text-cricket-100 mt-1">Indian Premier League Match Analytics & Insights</p>
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="text-3xl">🏏</div>
+              <div>
+                <h1 className="text-2xl font-bold text-slate-900">Cricket Analytics</h1>
+                <p className="text-sm text-slate-500 mt-0.5">IPL Performance Insights</p>
+              </div>
             </div>
-            <div className="text-right text-sm">
-              <p>Total Matches: <span className="font-bold text-xl">{analytics.matchesByYear.reduce((sum, d) => sum + d.matches, 0)}</span></p>
-              <p>Total Teams: <span className="font-bold text-lg">{analytics.teamStats.length}</span></p>
+            <div className="text-right hidden sm:block">
+              <p className="text-slate-600 text-sm">
+                <span className="font-semibold text-slate-900">{totalMatches}</span> Matches
+              </p>
+              <p className="text-slate-600 text-sm">
+                <span className="font-semibold text-slate-900">{analytics.teamStats.length}</span> Teams
+              </p>
             </div>
           </div>
 
           {/* Tab Navigation */}
-          <nav className="flex gap-2 overflow-x-auto pb-2">
+          <nav className="flex gap-1 overflow-x-auto pb-2 -mb-2">
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-2 rounded-lg font-semibold transition whitespace-nowrap ${activeTab === tab.id
-                    ? 'bg-white text-cricket-700'
-                    : 'bg-cricket-700 text-white hover:bg-cricket-500'
+                className={`px-4 py-2.5 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${activeTab === tab.id
+                    ? 'bg-cricket-600 text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
               >
                 {tab.label}
@@ -141,27 +151,36 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-6 py-12">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
             <MatchesByYear data={analytics.matchesByYear} />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <p className="text-gray-600 text-sm">Total Matches</p>
-                <p className="text-3xl font-bold text-cricket-600">{analytics.matchesByYear.reduce((sum, d) => sum + d.matches, 0)}</p>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Total Matches</p>
+                <p className="text-4xl font-bold text-slate-900">{totalMatches}</p>
+                <p className="text-slate-400 text-xs mt-3">All seasons combined</p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <p className="text-gray-600 text-sm">Total Teams</p>
-                <p className="text-3xl font-bold text-cricket-600">{analytics.teamStats.length}</p>
+
+              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Total Teams</p>
+                <p className="text-4xl font-bold text-slate-900">{analytics.teamStats.length}</p>
+                <p className="text-slate-400 text-xs mt-3">Active franchises</p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <p className="text-gray-600 text-sm">Top Venue</p>
-                <p className="text-2xl font-bold text-cricket-600">{analytics.venueStats[0]?.venue?.split(',')[0] || 'N/A'}</p>
+
+              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Top Venue</p>
+                <p className="text-2xl font-bold text-slate-900 truncate">{analytics.venueStats[0]?.venue?.split(',')[0] || 'N/A'}</p>
+                <p className="text-slate-400 text-xs mt-3">{analytics.venueStats[0]?.matches || 0} matches</p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <p className="text-gray-600 text-sm">Most Wins</p>
-                <p className="text-2xl font-bold text-cricket-600">{analytics.teamStats[0]?.team.split(' ')[0]}</p>
+
+              <div className="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+                <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Most Wins</p>
+                <p className="text-2xl font-bold text-slate-900 truncate">{analytics.teamStats[0]?.team || 'N/A'}</p>
+                <p className="text-slate-400 text-xs mt-3">{analytics.teamStats[0]?.wins || 0} victories</p>
               </div>
             </div>
           </div>
@@ -198,9 +217,10 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-cricket-900 text-cricket-100 py-6 mt-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-sm">📊 IPL Match Analytics Dashboard | Data-Driven Cricket Insights</p>
+      <footer className="mt-16 bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 py-8 text-center">
+          <p className="text-slate-600 text-sm">IPL Cricket Analytics Dashboard</p>
+          <p className="text-slate-400 text-xs mt-2">Built with React, Vite & Recharts</p>
         </div>
       </footer>
     </div>

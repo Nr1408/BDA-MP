@@ -1,57 +1,65 @@
 import React from 'react';
-import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export const RunsPerOver = ({ data }) => {
-  if (!data || data.length === 0) return <div className="p-4 text-gray-500">Loading data...</div>;
+  if (!data || data.length === 0) return <div className="p-4 text-slate-500">Loading data...</div>;
+
+  const avgHighest = Math.max(...data.map(d => parseFloat(d.avgRuns))).toFixed(2);
+  const avgLowest = Math.min(...data.map(d => parseFloat(d.avgRuns))).toFixed(2);
+  const avgOverall = (data.reduce((sum, d) => sum + parseFloat(d.avgRuns), 0) / data.length).toFixed(2);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-cricket-700 mb-4">Average Runs per Over</h2>
+    <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+      <h2 className="text-2xl font-bold text-slate-900 mb-6">Scoring Trend by Over</h2>
       <ResponsiveContainer width="100%" height={350}>
-        <AreaChart data={data}>
+        <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
           <defs>
-            <linearGradient id="colorRuns" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0284c7" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#0284c7" stopOpacity={0}/>
+            <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#0284c7" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#0284c7" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
             dataKey="over"
             label={{ value: 'Over Number', position: 'insideBottomRight', offset: -5 }}
+            tick={{ fill: '#64748b' }}
           />
-          <YAxis label={{ value: 'Avg Runs', angle: -90, position: 'insideLeft' }} />
-          <Tooltip />
+          <YAxis
+            label={{ value: 'Avg Runs', angle: -90, position: 'insideLeft' }}
+            tick={{ fill: '#64748b' }}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px'
+            }}
+          />
           <Area
             type="monotone"
             dataKey="avgRuns"
             stroke="#0284c7"
+            strokeWidth={2}
             fillOpacity={1}
-            fill="url(#colorRuns)"
+            fill="url(#scoreGradient)"
             name="Average Runs"
           />
         </AreaChart>
       </ResponsiveContainer>
-      <div className="mt-6 bg-gray-50 p-4 rounded-lg">
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-sm text-gray-600">Highest Avg</p>
-            <p className="text-xl font-bold text-cricket-600">
-              {Math.max(...data.map(d => parseFloat(d.avgRuns))).toFixed(2)}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Lowest Avg</p>
-            <p className="text-xl font-bold text-cricket-600">
-              {Math.min(...data.map(d => parseFloat(d.avgRuns))).toFixed(2)}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Overall Avg</p>
-            <p className="text-xl font-bold text-cricket-600">
-              {(data.reduce((sum, d) => sum + parseFloat(d.avgRuns), 0) / data.length).toFixed(2)}
-            </p>
-          </div>
+
+      <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-2">Highest Avg</p>
+          <p className="text-3xl font-bold text-cricket-600">{avgHighest}</p>
+        </div>
+        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-2">Lowest Avg</p>
+          <p className="text-3xl font-bold text-slate-900">{avgLowest}</p>
+        </div>
+        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-2">Overall Avg</p>
+          <p className="text-3xl font-bold text-slate-900">{avgOverall}</p>
         </div>
       </div>
     </div>

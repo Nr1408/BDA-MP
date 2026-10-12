@@ -16,12 +16,11 @@ body {
   font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
-  color: #f0f0ff;
+  background-color: #f8fafc;
+  color: #1e293b;
   min-height: 100vh;
 }
 
-/* Typography */
 h1,
 h2,
 h3,
@@ -31,43 +30,51 @@ h6 {
   font-family: 'Syne', system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: #0f172a;
 }
 
 h1 {
-  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #0dd9ff 0%, #6b68ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #0f172a;
 }
 
 h2 {
-  font-size: clamp(1.25rem, 4vw, 1.875rem);
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 h3 {
-  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
   font-weight: 600;
 }
 
 p {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   font-size: clamp(0.875rem, 2vw, 1rem);
+  color: #475569;
 }
 
-/* Loading Spinner */
+.card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 4px 12px 0 rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 10px 24px -2px rgba(0, 0, 0, 0.08);
+}
+
 .spinner {
-  border: 3px solid rgba(13, 217, 255, 0.2);
+  border: 3px solid #e2e8f0;
   border-radius: 50%;
-  border-top: 3px solid #0dd9ff;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite, pulse-neon 2s ease-in-out infinite;
-  box-shadow: 0 0 20px rgba(13, 217, 255, 0.5);
+  border-top: 3px solid #3b82f6;
+  width: 36px;
+  height: 36px;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -80,59 +87,46 @@ p {
   }
 }
 
-/* Cards & Components */
-.glass-effect {
-  background: rgba(26, 26, 46, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(13, 217, 255, 0.2);
-}
-
-.glass-effect:hover {
-  border-color: rgba(13, 217, 255, 0.4);
-  box-shadow: 0 0 20px rgba(13, 217, 255, 0.2);
-}
-
-/* Smooth transitions */
 button {
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
   font-family: 'Space Grotesk', system-ui, sans-serif;
 }
 
-button:hover {
-  transform: translateY(-2px);
-}
-
 a {
-  transition: color 0.3s ease;
+  transition: color 0.15s ease;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 15, 30, 0.5);
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #0dd9ff, #6b68ff);
-  border-radius: 5px;
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #43e4ff, #8b88ff);
+  background: #94a3b8;
 }
 
-/* Responsive typography */
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
 @media (max-width: 640px) {
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
   }
 
   h2 {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 
   h3 {
@@ -141,37 +135,5 @@ a {
 
   p {
     font-size: 0.875rem;
-  }
-}
-
-/* Input focus */
-input:focus,
-select:focus {
-  outline: none;
-  box-shadow: 0 0 20px rgba(13, 217, 255, 0.3);
-}
-
-/* Animations */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes glow {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.8;
   }
 }

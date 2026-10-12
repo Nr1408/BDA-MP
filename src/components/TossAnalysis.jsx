@@ -55,7 +55,7 @@ export const TossAnalysis = ({ data, resultTypes }) => {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={false}
+                  label={({ percentage }) => `${(percentage * 100).toFixed(1)}%`}
                   outerRadius={75}
                   innerRadius={35}
                   dataKey="count"

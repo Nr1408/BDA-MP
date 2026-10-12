@@ -36,9 +36,9 @@ export default function App() {
     const loadData = async () => {
       try {
         setLoading(true);
-        // Fetch CSV files
-        const matchesResponse = await fetch('./matches.csv');
-        const deliveriesResponse = await fetch('./deliveries.csv');
+        // Fetch CSV files from public directory
+        const matchesResponse = await fetch('/matches.csv');
+        const deliveriesResponse = await fetch('/deliveries.csv');
 
         if (!matchesResponse.ok || !deliveriesResponse.ok) {
           throw new Error('Failed to load CSV files');
@@ -128,11 +128,10 @@ export default function App() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-2 rounded-lg font-semibold transition whitespace-nowrap ${
-                  activeTab === tab.id
+                className={`px-6 py-2 rounded-lg font-semibold transition whitespace-nowrap ${activeTab === tab.id
                     ? 'bg-white text-cricket-700'
                     : 'bg-cricket-700 text-white hover:bg-cricket-500'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>

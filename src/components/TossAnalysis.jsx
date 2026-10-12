@@ -56,38 +56,44 @@ export const TossAnalysis = ({ data, resultTypes }) => {
       <div className="glass-effect p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-neon-500/30">
         <h2 className="text-xl sm:text-2xl font-bold text-neon-100 mb-6">Result Types</h2>
         {resultTypes && resultTypes.length > 0 ? (
-          <ResponsiveContainer width="100%" height={350}>
-            <PieChart>
-              <Pie
-                data={resultTypes}
-                cx="50%"
-                cy="45%"
-                labelLine={true}
-                label={({ type, percentage }) => `${percentage}%`}
-                outerRadius={90}
-                fill="#8884d8"
-                dataKey="count"
-              >
-                {resultTypes.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          <>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={resultTypes}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={false}
+                  outerRadius={70}
+                  fill="#8884d8"
+                  dataKey="count"
+                >
+                  {resultTypes.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => value.toLocaleString()} />
+              </PieChart>
+            </ResponsiveContainer>
+
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              {resultTypes.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2 p-3 bg-dark-800/50 rounded-lg border border-neon-500/20 hover:border-neon-500/50 transition-all">
+                  <div
+                    className="w-4 h-4 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+                  ></div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold text-neon-300 truncate">{item.type}</p>
+                    <p className="text-xs text-neon-100">{item.count} ({item.percentage}%)</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
           <div className="text-center text-neon-500 py-12">No data</div>
-        )}
-
-        {resultTypes && resultTypes.length > 0 && (
-          <div className="mt-4 sm:mt-6 bg-neon-500/10 p-3 sm:p-4 rounded-lg space-y-2 border border-neon-500/20">
-            {resultTypes.map((item, idx) => (
-              <p key={idx} className="text-xs sm:text-sm">
-                <span className="font-semibold text-neon-300">{item.type}:</span>
-                <span className="text-neon-100 ml-2">{item.count} ({item.percentage}%)</span>
-              </p>
-            ))}
-          </div>
         )}
       </div>
     </div>

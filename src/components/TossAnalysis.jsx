@@ -56,15 +56,15 @@ export const TossAnalysis = ({ data, resultTypes }) => {
       <div className="glass-effect p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-neon-500/30">
         <h2 className="text-xl sm:text-2xl font-bold text-neon-100 mb-6">Result Types</h2>
         {resultTypes && resultTypes.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={350}>
             <PieChart>
               <Pie
                 data={resultTypes}
                 cx="50%"
-                cy="50%"
-                labelLine={false}
+                cy="45%"
+                labelLine={true}
                 label={({ type, percentage }) => `${percentage}%`}
-                outerRadius={80}
+                outerRadius={90}
                 fill="#8884d8"
                 dataKey="count"
               >

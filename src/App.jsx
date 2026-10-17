@@ -112,7 +112,11 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             <div className="flex items-center gap-3">
-              <span className="text-2xl" aria-hidden="true">�</span>
+              <img
+                src="/ipl-logo.png"
+                alt="IPL logo"
+                className="h-10 w-14 sm:h-12 sm:w-16 object-contain"
+              />
               <div>
                 <h1 className="text-base sm:text-xl font-bold text-slate-900 leading-tight">IPL Analytics</h1>
                 <p className="text-xs text-slate-500 leading-tight hidden sm:block">Cricket Performance Insights</p>
